@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+    backend:
+        build:
+            context: ./store
+        container_name: docker-backend
+        ports:
+            - "8080:8080" # Expose Spring Boot backend on port 8080
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/medicine
+            - SPRING_DATASOURCE_USERNAME=root
+            - SPRING_DATASOURCE_PASSWORD=Ridm@1995
+        depends_on:
+            - mysql # Ensure MySQL starts before the backend
+
+    frontend:
+        build:
+            context: ./front-end
+        container_name: docker-frontend
+        ports:
+            - "3000:86" # Serve React app on port 3000
+
+    mysql:
+        image: mysql:8.0                # Use the official MySQL image
+        container_name: mysql-db        # Name the container
+        ports:
+            - "3306:3306"                 # Expose MySQL on the default port
+        environment:
+            MYSQL_ROOT_PASSWORD: Ridm@1995 # Set the root password
+            MYSQL_DATABASE: medicine       # Create a default database
+            MYSQL_USER: root               # Create a new user
+            MYSQL_PASSWORD: Ridm@1995      # Set the user's password
+        volumes:
+            - db_data:/var/lib/mysql       # Persist data on the host system
+        restart: always                  # Ensure the container restarts on failure
+
+volumes:
+    db_data:
