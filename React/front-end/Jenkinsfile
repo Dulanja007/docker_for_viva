@@ -5,7 +5,7 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 retry(3) {
-                    git branch: 'main', url: 'https://github.com/Dulanja007/docker_for_viva/tree/main/React/front-end'
+                    git branch: 'main', url: 'https://github.com/Dulanja007/docker_for_viva'
                 }
             }
         }
